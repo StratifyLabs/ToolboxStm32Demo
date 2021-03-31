@@ -28,6 +28,8 @@ set(STM32F413_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/../src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../src/Gpio.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../src/Gpio.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../src/Serial.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../src/Serial.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/main.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/stm32f4xx_it.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/stm32f4xx_hal_msp.c
@@ -52,23 +54,31 @@ set(STM32F413_SOURCES
 
 set(STM32F413_LINKER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/STM32F413VGTx_FLASH.ld)
 
-set(RELEASE_TARGET ${PROJECT_NAME}_release.elf)
-set(DEBUG_TARGET ${PROJECT_NAME}_debug.elf)
+set(BLUE_TARGET ${PROJECT_NAME}_blue.elf)
+set(RED_TARGET ${PROJECT_NAME}_red.elf)
+set(ORANGE_TARGET ${PROJECT_NAME}_orange.elf)
+set(HELLO_TARGET ${PROJECT_NAME}_hello.elf)
 
 
 message(STATUS "Release Executable ${RELEASE_TARGET}")
 message(STATUS "Debug Executable ${DEBUG_TARGET}")
 
 sdk_add_base_executable(
-	${RELEASE_TARGET}
+	${BLUE_TARGET}
 	"${STM32F413_SOURCES}"
 	"${STM32F413_INCLUDE_DIRECTORIES}"
 	"${STM32F413_CPU_OPTIONS}"
 	"${STM32F413_DEFINITIONS}"
 	"${STM32F413_LINKER_FILE}"
 	)
+
+target_compile_definitions(${BLUE_TARGET}
+	PRIVATE
+	__BLUE=1
+	)
+
 sdk_add_base_executable(
-	${DEBUG_TARGET}
+	${RED_TARGET}
 	"${STM32F413_SOURCES}"
 	"${STM32F413_INCLUDE_DIRECTORIES}"
 	"${STM32F413_CPU_OPTIONS}"
@@ -76,13 +86,36 @@ sdk_add_base_executable(
 	"${STM32F413_LINKER_FILE}"
 	)
 
-target_compile_definitions(${RELEASE_TARGET}
+target_compile_definitions(${RED_TARGET}
 	PRIVATE
-	___DEBUG=0
+	__RED=1
 	)
 
-target_compile_definitions(${DEBUG_TARGET}
+sdk_add_base_executable(
+	${ORANGE_TARGET}
+	"${STM32F413_SOURCES}"
+	"${STM32F413_INCLUDE_DIRECTORIES}"
+	"${STM32F413_CPU_OPTIONS}"
+	"${STM32F413_DEFINITIONS}"
+	"${STM32F413_LINKER_FILE}"
+	)
+
+target_compile_definitions(${ORANGE_TARGET}
 	PRIVATE
-	___DEBUG=1
+	__ORANGE=1
+	)
+
+sdk_add_base_executable(
+	${HELLO_TARGET}
+	"${STM32F413_SOURCES}"
+	"${STM32F413_INCLUDE_DIRECTORIES}"
+	"${STM32F413_CPU_OPTIONS}"
+	"${STM32F413_DEFINITIONS}"
+	"${STM32F413_LINKER_FILE}"
+	)
+
+target_compile_definitions(${HELLO_TARGET}
+	PRIVATE
+	__HELLO=1
 	)
 

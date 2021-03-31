@@ -19,7 +19,6 @@ function(sdk_add_base_executable
 		DEFINITIONS
 		LINKER_FILE)
 
-	message("SOURCE " ${SOURCES})
 	add_executable(${TARGET})
 	target_sources(${TARGET}
 		PRIVATE
@@ -63,5 +62,17 @@ function(sdk_add_base_executable
 		PRIVATE
 		-O3
 		)
+
+	add_custom_target(
+		asm_${TARGET} ALL
+		DEPENDS ${TARGET}
+		COMMAND ${CMAKE_OBJDUMP} -S -j .text -j .data -j .isr_vector -d ${CMAKE_CURRENT_BINARY_DIR}/${TARGET} > ${CMAKE_CURRENT_BINARY_DIR}/${TARGET}.lst)
+
+	add_custom_target(
+		bin_${TARGET} ALL
+		DEPENDS ${TARGET}
+		COMMAND ${CMAKE_OBJCOPY}  -j .isr_vector -j .text -j .rodata -j .ARM.extab -j .ARM -j .preinit_array -j .init_array -j .fini_array -j .data -O binary ${CMAKE_CURRENT_BINARY_DIR}/${TARGET} ${CMAKE_CURRENT_BINARY_DIR}/${TARGET}.bin)
+
+
 
 endfunction()

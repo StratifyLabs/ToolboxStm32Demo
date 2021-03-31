@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+extern void application_main();
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,7 +89,7 @@ int main(void)
   MX_GPIO_Init();
   MX_UART10_Init();
   /* USER CODE BEGIN 2 */
-
+  application_main();
   /* USER CODE END 2 */
 
   /* Infinite loop */
