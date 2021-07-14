@@ -6,40 +6,42 @@ extern "C" void application_main();
 #include "Gpio.hpp"
 #include "Serial.hpp"
 
-static Gpio get_red_led(){
+static Gpio get_led0(){
+#if STM32F413xx
   return Gpio(Gpio::Port::e, 4).set_output().set_value(true);
+#endif
+#if STM32F401xC
+  return Gpio(Gpio::Port::b, 4).set_output().set_value(true);
+#endif
+
 }
 
-static Gpio get_orange_led(){
+static Gpio get_led1(){
+#if STM32F413xx
   return Gpio(Gpio::Port::b, 9).set_output().set_value(true);
-}
-
-static Gpio get_blue_led(){
-  return Gpio(Gpio::Port::e, 1).set_output().set_value(true);
+#endif
+#if STM32F401xC
+  return Gpio(Gpio::Port::b, 5).set_output().set_value(true);
+#endif
 }
 
 void application_main(){
-  get_red_led();
-  get_orange_led();
-  get_blue_led();
 
-#if __BLUE || __HELLO
-  auto active_led = get_blue_led();
-#endif
 
-#if __RED
-  auto active_led = get_red_led();
-#endif
+  constexpr uint32_t delay = !__FAST * 500 + 50;
 
-#if __ORANGE
-  auto active_led = get_orange_led();
-#endif
+
+  auto led0 = get_led0();
+  auto led1 = get_led1();
+
+
 
   char buffer[64];
   char number[64];
   int count = 0;
   while(1){
-    active_led.set_value(false).wait(1000).set_value(true).wait(500);
+    led0.set_value(true).wait(delay).set_value(false).wait(delay);
+    led1.set_value(true).wait(delay).set_value(false).wait(delay);
     itoa(++count, number, 10);
     strncpy(buffer, "Hello World ", 63);
     strncat(buffer, number, 63);

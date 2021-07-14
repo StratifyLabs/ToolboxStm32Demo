@@ -17,8 +17,10 @@ void *Gpio::get_handle(Port port) {
     return GPIOD;
   case Port::e:
     return GPIOE;
+#if STM32F413
   case Port::f:
     return GPIOF;
+#endif
   }
   // assert
   return nullptr;

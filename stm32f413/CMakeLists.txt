@@ -54,17 +54,15 @@ set(STM32F413_SOURCES
 
 set(STM32F413_LINKER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/STM32F413VGTx_FLASH.ld)
 
-set(BLUE_TARGET ${PROJECT_NAME}_blue.elf)
-set(RED_TARGET ${PROJECT_NAME}_red.elf)
-set(ORANGE_TARGET ${PROJECT_NAME}_orange.elf)
-set(HELLO_TARGET ${PROJECT_NAME}_hello.elf)
+set(FAST_TARGET ${PROJECT_NAME}_fast.elf)
+set(SLOW_TARGET ${PROJECT_NAME}_slow.elf)
 
 
 message(STATUS "Release Executable ${RELEASE_TARGET}")
 message(STATUS "Debug Executable ${DEBUG_TARGET}")
 
 sdk_add_base_executable(
-	${BLUE_TARGET}
+	${FAST_TARGET}
 	"${STM32F413_SOURCES}"
 	"${STM32F413_INCLUDE_DIRECTORIES}"
 	"${STM32F413_CPU_OPTIONS}"
@@ -72,13 +70,13 @@ sdk_add_base_executable(
 	"${STM32F413_LINKER_FILE}"
 	)
 
-target_compile_definitions(${BLUE_TARGET}
+target_compile_definitions(${FAST_TARGET}
 	PRIVATE
-	__BLUE=1
+	__FAST=1
 	)
 
 sdk_add_base_executable(
-	${RED_TARGET}
+	${SLOW_TARGET}
 	"${STM32F413_SOURCES}"
 	"${STM32F413_INCLUDE_DIRECTORIES}"
 	"${STM32F413_CPU_OPTIONS}"
@@ -86,36 +84,10 @@ sdk_add_base_executable(
 	"${STM32F413_LINKER_FILE}"
 	)
 
-target_compile_definitions(${RED_TARGET}
+target_compile_definitions(${SLOW_TARGET}
 	PRIVATE
-	__RED=1
+	__FAST=0
 	)
 
-sdk_add_base_executable(
-	${ORANGE_TARGET}
-	"${STM32F413_SOURCES}"
-	"${STM32F413_INCLUDE_DIRECTORIES}"
-	"${STM32F413_CPU_OPTIONS}"
-	"${STM32F413_DEFINITIONS}"
-	"${STM32F413_LINKER_FILE}"
-	)
 
-target_compile_definitions(${ORANGE_TARGET}
-	PRIVATE
-	__ORANGE=1
-	)
-
-sdk_add_base_executable(
-	${HELLO_TARGET}
-	"${STM32F413_SOURCES}"
-	"${STM32F413_INCLUDE_DIRECTORIES}"
-	"${STM32F413_CPU_OPTIONS}"
-	"${STM32F413_DEFINITIONS}"
-	"${STM32F413_LINKER_FILE}"
-	)
-
-target_compile_definitions(${HELLO_TARGET}
-	PRIVATE
-	__HELLO=1
-	)
 

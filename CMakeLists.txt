@@ -13,3 +13,4 @@ project(tboxdemo CXX C ASM)
 include(sdk)
 
 add_subdirectory(stm32f413 stm32f413)
+add_subdirectory(stm32f401 stm32f401)

@@ -164,7 +164,7 @@ static void MX_UART10_Init(void)
 
   /* USER CODE END UART10_Init 1 */
   huart10.Instance = UART10;
-  huart10.Init.BaudRate = 115200;
+  huart10.Init.BaudRate = 1000000;
   huart10.Init.WordLength = UART_WORDLENGTH_8B;
   huart10.Init.StopBits = UART_STOPBITS_1;
   huart10.Init.Parity = UART_PARITY_NONE;
